@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FecapStudy — Plataforma de Apoio ao Estudo</title>
+<style>
+  :root {
+    --verde-escuro: #023327; --verde: #00E387;
+    --bg: #011a14; --painel: #022a21; --zona: #033328; --linha: #0f4a3c;
+    --texto: #e6f2ee; --suave: #9fbdb3; --erro: #ff8f85; --aviso: #f2c14e;
+    --fonte: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--texto); font: 1rem/1.5 var(--fonte); }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+
+  header { background: var(--verde-escuro); border-bottom: 4px solid var(--verde); }
+  .topo { max-width: 1200px; margin: 0 auto; padding: .8rem 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.5rem; }
+  .marca { font-size: 1.35rem; font-weight: 700; letter-spacing: .02em; }
+  .marca small { display: block; font-size: .78rem; font-weight: 400; color: var(--suave); }
+  .topo .escolha { margin-left: auto; display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+
+  .pill { border: 1px solid var(--linha); background: var(--zona); color: var(--texto); padding: .3rem .8rem; border-radius: 999px; font: .85rem var(--fonte); cursor: pointer; }
+  .pill.on { border-color: var(--verde); color: var(--verde); }
+  .pill.off { border-color: var(--erro); color: var(--erro); }
+
+  main { max-width: 1200px; margin: 0 auto; padding: 1.2rem 1rem 3rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; }
+  .cheio { grid-column: 1 / -1; }
+  @media (max-width: 820px) { main { grid-template-columns: minmax(0, 1fr); } }
+
+  .cartao { background: var(--painel); border: 1px solid var(--linha); border-radius: 12px; padding: 1rem 1.1rem; }
+  .cartao h2 { margin: 0 0 .7rem; font-size: 1.05rem; color: var(--verde); }
+  .perfis { display: grid; gap: .5rem; }
+  .perfil { background: var(--zona); border: 1px solid var(--linha); border-radius: 8px; padding: .55rem .8rem; }
+  .perfil span { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--suave); }
+
+  label { display: block; font-size: .85rem; color: var(--suave); margin: .6rem 0 .2rem; }
+  select, input[type="number"] { width: 100%; padding: .5rem .6rem; border-radius: 8px; border: 1px solid var(--linha); background: var(--zona); color: var(--texto); font: inherit; }
+  .linha2 { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .check { display: flex; align-items: center; gap: .5rem; margin-top: 1.9rem; color: var(--texto); font-size: .95rem; }
+  .check input { width: 1.1rem; height: 1.1rem; }
+
+  button.acao { margin-top: .9rem; padding: .6rem 1rem; border: 0; border-radius: 8px; background: var(--verde); color: var(--verde-escuro); font: 700 .95rem var(--fonte); cursor: pointer; }
+  button.acao:hover { filter: brightness(1.08); }
+  button.sec { background: transparent; color: var(--verde); border: 1px solid var(--verde); }
+  .botoes { display: flex; flex-wrap: wrap; gap: .6rem; align-items: end; }
+  .botoes > div { flex: 1 1 9rem; }
+
+  .barra { height: 1.4rem; background: var(--zona); border: 1px solid var(--linha); border-radius: 999px; overflow: hidden; }
+  .barra > div { height: 100%; width: 0; background: linear-gradient(90deg, #00b56b, var(--verde)); transition: width .4s ease; }
+  .barra-texto { margin: .4rem 0 0; color: var(--suave); font-size: .9rem; }
+
+  ul.lista { list-style: none; margin: .6rem 0 0; padding: 0; display: grid; gap: .4rem; max-height: 15rem; overflow: auto; }
+  ul.lista li { background: var(--zona); border: 1px solid var(--linha); border-radius: 8px; padding: .45rem .7rem; font-size: .9rem; }
+  ul.lista li.vazio { color: var(--suave); font-style: italic; }
+  .relatorio { margin-top: .7rem; background: var(--zona); border: 1px solid var(--verde); border-radius: 8px; padding: .5rem .8rem; }
+  .relatorio p { margin: .2rem 0; font-size: .92rem; }
+  .nota { color: var(--suave); font-size: .85rem; margin: .5rem 0 0; }
+
+  #toasts { position: fixed; right: 1rem; bottom: 1rem; display: grid; gap: .5rem; max-width: min(92vw, 26rem); z-index: 20; }
+  .toast { padding: .7rem .9rem; border-radius: 8px; background: var(--painel); border: 1px solid var(--linha); border-left-width: 5px; box-shadow: 0 6px 18px rgba(0,0,0,.4); font-size: .92rem; }
+  .toast.ok { border-left-color: var(--verde); }
+  .toast.erro { border-left-color: var(--erro); }
+  .toast.aviso { border-left-color: var(--aviso); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topo">
+    <div class="marca">FecapStudy<small>Plataforma de Apoio ao Estudo · POO · Aula 9</small></div>
+    <div class="escolha">
+      <label for="selDiscente" style="margin:0">Discente ativo</label>
+      <select id="selDiscente" style="width:auto"></select>
+      <button id="pillBackend" class="pill" type="button" title="Clique para testar a conexão">Verificando backend…</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Perfis (polimorfismo: gerarPainelResumo) -->
+  <section class="cartao cheio" aria-labelledby="h-perfis">
+    <h2 id="h-perfis">Perfis</h2>
+    <div class="perfis">
+      <div class="perfil"><span>Discente</span><div id="painelDiscente"></div></div>
+      <div class="perfil"><span>Responsável</span><div id="painelResponsavel"></div></div>
+      <div class="perfil"><span>Administrador</span><div id="painelAdmin"></div></div>
+    </div>
+  </section>
+
+  <!-- Nova sessão -->
+  <section class="cartao" aria-labelledby="h-sessao">
+    <h2 id="h-sessao">Nova sessão de estudo</h2>
+
+    <label for="selDisciplina">Disciplina</label>
+    <select id="selDisciplina"></select>
+
+    <div class="linha2">
+      <div>
+        <label for="selModalidade">Modalidade</label>
+        <select id="selModalidade">
+          <option value="Pomodoro">Pomodoro</option>
+          <option value="Exercicios">Exercícios</option>
+          <option value="Leitura">Leitura</option>
+        </select>
+      </div>
+      <div>
+        <label for="inpDuracao">Duração (minutos)</label>
+        <input id="inpDuracao" type="number" min="1" max="480" value="25">
+      </div>
+    </div>
+
+    <div class="extra" data-mod="Pomodoro">
+      <label for="inpCiclos">Ciclos completos</label>
+      <input id="inpCiclos" type="number" min="0" value="1">
+    </div>
+    <div class="extra linha2" data-mod="Exercicios">
+      <div>
+        <label for="inpQuestoes">Total de questões</label>
+        <input id="inpQuestoes" type="number" min="0" value="10">
+      </div>
+      <div>
+        <label for="inpAcertos">Acertos</label>
+        <input id="inpAcertos" type="number" min="0" value="8">
+      </div>
+    </div>
+    <div class="extra linha2" data-mod="Leitura">
+      <div>
+        <label for="inpPaginas">Páginas lidas</label>
+        <input id="inpPaginas" type="number" min="0" value="10">
+      </div>
+      <label class="check"><input id="chkResumo" type="checkbox"> Fez resumo</label>
+    </div>
+
+    <button id="btnRegistrar" class="acao" type="button">Registrar Estudo</button>
+  </section>
+
+  <!-- Meta + histórico -->
+  <section class="cartao" aria-labelledby="h-meta">
+    <h2 id="h-meta">Meta semanal</h2>
+    <div id="barra" class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progresso da meta semanal">
+      <div id="barraPreenchida"></div>
+    </div>
+    <p id="barraTexto" class="barra-texto"></p>
+
+    <div class="botoes">
+      <div>
+        <label for="selCanal">Canal do alerta</label>
+        <select id="selCanal">
+          <option value="email">E-mail</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="painel">Painel</option>
+        </select>
+      </div>
+      <button id="btnNotificar" class="acao sec" type="button">Notificar Responsável</button>
+    </div>
+
+    <div class="botoes">
+      <div>
+        <label for="inpMeta">Meta (minutos/semana) — ajuste do Responsável</label>
+        <input id="inpMeta" type="number" min="30" max="3000" value="180">
+      </div>
+      <button id="btnMeta" class="acao sec" type="button">Ajustar meta</button>
+    </div>
+    <p class="nota">A classe corrige a meta para ficar entre 30 e 3000 minutos.</p>
+
+    <h2 style="margin-top:1rem">Histórico desta sessão da tela</h2>
+    <ul id="listaHistorico" class="lista"></ul>
+  </section>
+
+  <!-- Servidor -->
+  <section class="cartao" aria-labelledby="h-servidor">
+    <h2 id="h-servidor">Dados gravados no servidor</h2>
+    <div class="botoes">
+      <button id="btnCarregar" class="acao" type="button">Carregar Histórico do Servidor</button>
+      <button id="btnRelatorio" class="acao sec" type="button">Ver Relatório</button>
+    </div>
+    <div id="relatorio" class="relatorio" hidden></div>
+    <ul id="listaServidor" class="lista"></ul>
+  </section>
+
+  <!-- Trilha + plano -->
+  <section class="cartao" aria-labelledby="h-trilha">
+    <h2 id="h-trilha">Trilha de estudo e plano semanal</h2>
+    <p id="trilhaTitulo" class="nota" style="margin-top:0"></p>
+    <ul id="listaTrilha" class="lista"></ul>
+
+    <div class="linha2">
+      <div>
+        <label for="selDia">Dia da semana</label>
+        <select id="selDia">
+          <option>Segunda</option><option>Terça</option><option>Quarta</option>
+          <option>Quinta</option><option>Sexta</option><option>Sábado</option><option>Domingo</option>
+        </select>
+      </div>
+      <div>
+        <label for="inpMinPlano">Minutos planejados</label>
+        <input id="inpMinPlano" type="number" min="1" value="60">
+      </div>
+    </div>
+    <button id="btnPlano" class="acao sec" type="button">Adicionar ao plano</button>
+    <ul id="listaPlano" class="lista"></ul>
+    <p id="totalPlano" class="nota"></p>
+  </section>
+</main>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

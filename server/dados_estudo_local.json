@@ -1,0 +1,114 @@
+{
+  "disciplinas": [
+    {
+      "id": 1,
+      "nome": "Programa\u00E7\u00E3o Orientada a Objetos",
+      "categoria": "Computa\u00E7\u00E3o",
+      "cargaHorariaSemanal": 4
+    },
+    {
+      "id": 2,
+      "nome": "Banco de Dados e Modelagem SQL",
+      "categoria": "Dados",
+      "cargaHorariaSemanal": 4
+    },
+    {
+      "id": 3,
+      "nome": "Projeto Interdisciplinar (PI)",
+      "categoria": "Pr\u00E1tica",
+      "cargaHorariaSemanal": 6
+    }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "Profa. Helena (Coordena\u00E7\u00E3o)",
+      "email": "helena@fecap.br",
+      "tipoPerfil": "Administrador",
+      "matriculaOuCargo": "Coordena\u00E7\u00E3o PI",
+      "responsavelNome": ""
+    },
+    {
+      "id": 2,
+      "nome": "Carlos Silva (Pai do Lucas)",
+      "email": "carlos@email.com",
+      "tipoPerfil": "Responsavel",
+      "matriculaOuCargo": "Respons\u00E1vel Legal",
+      "responsavelNome": ""
+    },
+    {
+      "id": 3,
+      "nome": "Lucas Silva",
+      "email": "lucas.silva@edu.fecap.br",
+      "tipoPerfil": "Discente",
+      "matriculaOuCargo": "RA-2026101",
+      "responsavelNome": "Carlos Silva (Pai do Lucas)"
+    },
+    {
+      "id": 4,
+      "nome": "Mariana Costa",
+      "email": "mariana.costa@edu.fecap.br",
+      "tipoPerfil": "Discente",
+      "matriculaOuCargo": "RA-2026102",
+      "responsavelNome": "Carlos Silva (Pai do Lucas)"
+    }
+  ],
+  "sessoes": [
+    {
+      "id": 1,
+      "discenteNome": "Lucas Silva",
+      "disciplina": "Programa\u00E7\u00E3o Orientada a Objetos",
+      "tipoModalidade": "Pomodoro",
+      "duracaoMinutos": 50,
+      "xpGanho": 100,
+      "resumoFeedback": "2 ciclos Pomodoro conclu\u00EDdos com foco total!",
+      "dataRegistro": "2026-10-17 07:09"
+    },
+    {
+      "id": 2,
+      "discenteNome": "Lucas Silva",
+      "disciplina": "Banco de Dados e Modelagem SQL",
+      "tipoModalidade": "Exercicios",
+      "duracaoMinutos": 25,
+      "xpGanho": 85,
+      "resumoFeedback": "Resolu\u00E7\u00E3o de 5 consultas JOIN no MySQL.",
+      "dataRegistro": "2026-10-17 09:09"
+    },
+    {
+      "id": 3,
+      "discenteNome": "Mariana Costa",
+      "disciplina": "Projeto Interdisciplinar (PI)",
+      "tipoModalidade": "Leitura",
+      "duracaoMinutos": 90,
+      "xpGanho": 135,
+      "resumoFeedback": "Leitura e modelagem UML da arquitetura da plataforma.",
+      "dataRegistro": "2026-10-17 08:09"
+    },
+    {
+      "id": 4,
+      "discenteNome": "Mariana Costa",
+      "disciplina": "Programa\u00E7\u00E3o Orientada a Objetos",
+      "tipoModalidade": "Pomodoro",
+      "duracaoMinutos": 25,
+      "xpGanho": 65,
+      "resumoFeedback": "Pomodoro em Programa\u00E7\u00E3o Orientada a Objetos (25 min) -\u003E \u002B65 XP | 1 ciclo(s) conclu\u00EDdo(s)",
+      "dataRegistro": "2026-10-17 10:11"
+    }
+  ],
+  "metas": [
+    {
+      "id": 1,
+      "discenteNome": "Lucas Silva",
+      "responsavelNome": "Carlos Silva (Pai do Lucas)",
+      "metaMinutosSemana": 180,
+      "minutosCumpridos": 75
+    },
+    {
+      "id": 2,
+      "discenteNome": "Mariana Costa",
+      "responsavelNome": "Carlos Silva (Pai do Lucas)",
+      "metaMinutosSemana": 240,
+      "minutosCumpridos": 115
+    }
+  ]
+}
