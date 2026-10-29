@@ -104,7 +104,3 @@ O banco `fecap_estudo` e as tabelas são criados automaticamente.
 | POST | `/api/sessoes` | Grava a sessão de estudo |
 | POST | `/api/metas` | Grava a meta ajustada pelo responsável |
 | GET | `/api/relatorio/{nome}` | Relatório consolidado do discente |
-
-## Autor
-
-Seu Nome — ADS, 2º semestre · FECAP
